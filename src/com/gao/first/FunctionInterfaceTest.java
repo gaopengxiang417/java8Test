@@ -10,7 +10,7 @@ package com.gao.first;
 @FunctionalInterface
 public interface FunctionInterfaceTest {
     void run();
-    default String toString() {
+    /*default String toString() {
         return "this is function interface";
-    }
+    }*/
 }
