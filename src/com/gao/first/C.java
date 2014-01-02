@@ -12,6 +12,32 @@ public class C implements A,B{
 
         F f = new F();
         f.hello();
+
+        M m = new M();
+        m.hello();
+    }
+}
+
+class M implements H,I{
+    public void hello() {
+        H.super.hello();
+    }
+}
+
+interface I extends G{
+    default void hello(){
+        System.out.println("I method...");
+    }
+}
+
+interface H extends G{
+    default void hello(){
+        System.out.println("h method....");
+    }
+}
+interface G{
+    default void hello(){
+        System.out.println("g method.");
     }
 }
 
