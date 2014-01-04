@@ -1,7 +1,5 @@
 package com.gao.lambda;
 
-import sun.management.resources.agent;
-
 import java.util.function.Function;
 
 /**
