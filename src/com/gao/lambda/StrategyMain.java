@@ -21,11 +21,9 @@ public class StrategyMain {
         System.out.println("**********华丽的分割线**********8");
         //如果用lambda表达式执行
         List<Strategy> lambdaList = Arrays.asList(
-                () -> {
-                    System.out.println("lazy done...");},
-                () -> {
-                    System.out.println("active done....");
-                }
+
+                () -> {System.out.println("lazy done...");},
+                 () -> {System.out.println("active done....");}
         );
 
 
