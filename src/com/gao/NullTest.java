@@ -11,5 +11,9 @@ public class NullTest {
         String ss = null;
         s += ss;
         System.out.println(s);
+
+        double a = 40.8F;
+        int b = 100;
+        System.out.println(b * a);
     }
 }
