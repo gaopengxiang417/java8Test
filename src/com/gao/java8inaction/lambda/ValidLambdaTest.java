@@ -44,4 +44,15 @@ public class ValidLambdaTest {
 
     //IntPredicate intPredicate = (int anInt) -> anInt % 2 == 0;
     //intPredicate.test(1100);
+
+    //方法引用的表达方式
+    /**
+     * (Apple a) -> a.getWeight()      Apple::getWeight
+     *
+     * () -> Thead.currentThread.dumpStack()   Thread.currentThread::dumpStack
+     *
+     * (str, i) -> str.substring(i)    String::substring
+     *
+     * (String s) -> System.out.println(s)  System.out::println
+     */
 }
