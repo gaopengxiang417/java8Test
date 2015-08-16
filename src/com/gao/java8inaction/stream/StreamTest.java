@@ -1,7 +1,10 @@
 package com.gao.java8inaction.stream;
 
+import com.gao.first.C;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -55,5 +58,65 @@ public class StreamTest {
 
         //skip a stream
         menu.stream().filter(d -> d.isVegetarian()).skip(2).forEach(System.out::println);
+
+        //获取单词的长度
+        List<String> wordList = Arrays.asList("Java8", "lambda", "In", "Action");
+        List<Integer> wordLength = wordList.stream().map(String::length).collect(Collectors.toList());
+        System.out.println(wordLength);
+
+        //可以连接两个map
+        List<Integer> dishLengthList = menu.stream().map(Dish::getName).map(String::length).collect(Collectors.toList());
+        System.out.println(dishLengthList);
+
+
+        //解决stream合并的问题
+        List<String> stringList = wordList.stream().map(w -> w.split("")).flatMap(Arrays::stream).distinct().collect(Collectors.toList());
+        System.out.println(stringList);
+
+        //返回一组数据的平方
+        List<Integer> numberList = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> squareList = numberList.stream().map(n -> n * n).collect(Collectors.toList());
+        System.out.println(squareList);
+
+        //构造一个数据对
+        List<Integer> numbers1 = Arrays.asList(1, 2, 3);
+        List<Integer> numbers2 = Arrays.asList(3, 4);
+
+        List<int[]> collect1 = numbers1.stream().flatMap(i -> numbers2.stream().map(j -> new int[]{i, j})).collect(Collectors.toList());
+        System.out.println(collect1);
+
+        //查询是否有一个元素匹配
+        if (menu.stream().anyMatch(Dish::isVegetarian)) {
+            System.out.println("the menu is vegetarian friendly!!");
+        }
+
+        //查询是否全部匹配
+        System.out.println(menu.stream().allMatch(d -> d.getCalories() < 1000));
+
+        Optional<Dish> dishOptional = menu.stream().filter(Dish::isVegetarian).findAny();
+        System.out.println(dishOptional.get());
+
+        menu.stream().filter(Dish::isVegetarian).findAny().ifPresent(System.out::println);
+
+
+        System.out.println(numberList.stream().map(s -> s * s).filter(s -> s % 3 == 0).findFirst().get());
+
+        //reduce操作
+        Integer reduce = numberList.stream().reduce(0, (a, b) -> a + b);
+        System.out.println(reduce);
+
+        //更加精简的代码
+        System.out.println(numberList.stream().reduce(0, Integer::sum));
+
+        //没有初始值的reduce
+        numberList.stream().reduce(Integer::sum).ifPresent(System.out::println);
+
+        numberList.stream().reduce(Integer::min).ifPresent(System.out::println);
+        numberList.stream().reduce(Integer::max).ifPresent(System.out::println);
+
+        //计算盘子个数
+        System.out.println(menu.stream().map(d -> 1).reduce(0, Integer::sum));
+
+
     }
 }
