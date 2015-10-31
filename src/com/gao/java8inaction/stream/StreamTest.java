@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * User: wangchen
@@ -116,6 +117,24 @@ public class StreamTest {
 
         //计算盘子个数
         System.out.println(menu.stream().map(d -> 1).reduce(0, Integer::sum));
+
+
+        //创建stream的几种方式
+
+        //首先根据固定的值来创建stream
+        Stream<String> stream = Stream.of("Java 8", "Lambdas", "In", "Action");
+        stream.map(String::toUpperCase).forEach(System.out::println);
+
+        //根据数组来创建stream
+        int[] numbers4 = {1, 3, 5, 6, 7, 8, 9, 10};
+        int sum = Arrays.stream(numbers4).sum();
+        System.out.println(sum);
+
+        //使用iterate方法来生成无线stream
+        Stream.iterate(0, n -> n + 2).limit(10).forEach(System.out::println);
+
+        //铜鼓Iterate方法来生成函数序列
+        Stream.iterate(new int[]{0, 1}, t -> new int[]{t[1], t[0] + t[1]}).limit(10).map(t -> t[0]).forEach(System.out::println);
 
 
     }
