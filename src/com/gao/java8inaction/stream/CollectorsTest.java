@@ -125,6 +125,26 @@ public class CollectorsTest {
         Map<Dish.Type, IntSummaryStatistics> collect10 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.summarizingInt(Dish::getCalories)));
         System.out.println(collect10);
 
+        //partition分组
+        Map<Boolean, List<Dish>> collect11 = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian));
+        System.out.println(collect11);
+
+        //首先切片,然后分组
+        Map<Boolean, Map<Dish.Type, List<Dish>>> collect12 = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian, Collectors.groupingBy(Dish::getType)));
+        System.out.println(collect12);
+
+        //获取每个切片的最大值的对象
+        Map<Boolean, Dish> collect13 = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian, Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Dish::getCalories)), Optional::get)));
+        System.out.println(collect13);
+
+        //切片,首先按照是否是蔬菜,然后按照卡路里大于500来区分
+        Map<Boolean, Map<Boolean, List<Dish>>> collect14 = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian, Collectors.partitioningBy(dish -> dish.getCalories() > 500)));
+        System.out.println(collect14);
+
+        Map<Boolean, Long> collect15 = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian, Collectors.counting()));
+        System.out.println(collect15);
+
+
 
     }
 
