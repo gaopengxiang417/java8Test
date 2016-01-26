@@ -73,5 +73,51 @@ public class CollectorsTest {
 
         String collect4 = menu.stream().collect(Collectors.reducing("", Dish::getName, (s1, s2) -> s1 + s2));
         System.out.println(collect4);
+
+
+        //分组功能
+        Map<Dish.Type, List<Dish>> typeListMap = menu.stream().collect(Collectors.groupingBy(Dish::getType));
+
+        System.out.println(typeListMap.values());
+
+
+        //按照自定义的来进行分组
+        Map<CaloricLevel, List<Dish>> collect5 = menu.stream().collect(Collectors.groupingBy(dish -> {
+            if (dish.getCalories() <= 400) {
+                return CaloricLevel.DIET;
+            } else if (dish.getCalories() <= 700) {
+                return CaloricLevel.NORMAL;
+            } else {
+                return CaloricLevel.FAT;
+            }
+        }));
+
+        System.out.println(collect5.values());
+
+        //多级分组
+        Map<Dish.Type, Map<CaloricLevel, List<Dish>>> collect6 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.groupingBy(dish -> {
+            if (dish.getCalories() <= 400) {
+                return CaloricLevel.DIET;
+            } else if (dish.getCalories() <= 700) {
+                return CaloricLevel.NORMAL;
+            } else {
+                return CaloricLevel.FAT;
+            }
+        })));
+
+        System.out.println(collect6.values());
+
+
+        //其他类型的分组和后面的加工
+        Map<Dish.Type, Long> collect7 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.counting()));
+        System.out.println(collect7);
+
+        //首先按照类型进行分组,然后统计每组的最大的值对应的对象
+        Map<Dish.Type, Optional<Dish>> collect8 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.maxBy(Comparator.comparingInt(Dish::getCalories))));
+        System.out.println(collect8);
+
+
     }
+
+    public enum CaloricLevel{DIET, NORMAL, FAT}
 }
