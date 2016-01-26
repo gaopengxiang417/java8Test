@@ -117,6 +117,15 @@ public class CollectorsTest {
         System.out.println(collect8);
 
 
+        //首先按照类型进行分组,然后另一种方式来统计最大值
+        Map<Dish.Type, Dish> collect9 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Dish::getCalories)), Optional::get)));
+        System.out.println(collect9);
+
+        //汇总求和
+        Map<Dish.Type, IntSummaryStatistics> collect10 = menu.stream().collect(Collectors.groupingBy(Dish::getType, Collectors.summarizingInt(Dish::getCalories)));
+        System.out.println(collect10);
+
+
     }
 
     public enum CaloricLevel{DIET, NORMAL, FAT}
