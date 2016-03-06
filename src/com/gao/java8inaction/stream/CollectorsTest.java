@@ -2,6 +2,7 @@ package com.gao.java8inaction.stream;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * User: wangchen
@@ -143,6 +144,47 @@ public class CollectorsTest {
 
         Map<Boolean, Long> collect15 = menu.stream().collect(Collectors.partitioningBy(Dish::isVegetarian, Collectors.counting()));
         System.out.println(collect15);
+
+
+        //将数据进行奇数和偶数的分离,并且产出具体的数据列表
+        Map<Boolean, List<Integer>> collect16 = IntStream.range(2, 50).boxed().collect(Collectors.partitioningBy(i -> i % 2 == 0));
+        System.out.println(collect16);
+        System.out.println("==========华丽的分割线===========");
+
+        //下面开始所有的Collectors的静态工厂方法
+
+        List<Dish> collect17 = menu.stream().collect(Collectors.toList());
+        System.out.println(collect17);
+
+        Set<Dish> collect18 = menu.stream().collect(Collectors.toSet());
+        System.out.println(collect18);
+
+        ArrayList<Dish> collect19 = menu.stream().collect(Collectors.toCollection(ArrayList::new));
+        System.out.println(collect19);
+
+        Long collect20 = menu.stream().collect(Collectors.counting());
+        System.out.println(collect20);
+
+        Integer collect21 = menu.stream().collect(Collectors.summingInt(Dish::getCalories));
+        System.out.println(collect21);
+
+        Double collect22 = menu.stream().collect(Collectors.averagingInt(Dish::getCalories));
+        System.out.println(collect22);
+
+        IntSummaryStatistics collect23 = menu.stream().collect(Collectors.summarizingInt(Dish::getCalories));
+        System.out.println(collect23);
+
+        String collect24 = menu.stream().map(Dish::getName).collect(Collectors.joining(","));
+        System.out.println(collect24);
+
+        Optional<Dish> collect25 = menu.stream().collect(Collectors.maxBy(Comparator.comparingInt(Dish::getCalories)));
+        System.out.println(collect25.get());
+
+        Integer collect26 = menu.stream().collect(Collectors.reducing(0, Dish::getCalories, Integer::sum));
+        System.out.println(collect26);
+
+        Integer collect27 = menu.stream().collect(Collectors.collectingAndThen(Collectors.toList(), List::size));
+        System.out.println(collect27);
 
 
 
