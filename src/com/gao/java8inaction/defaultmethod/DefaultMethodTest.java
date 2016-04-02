@@ -3,6 +3,7 @@ package com.gao.java8inaction.defaultmethod;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User: wangchen
@@ -33,7 +34,97 @@ public class DefaultMethodTest {
 
         new G().hello();
 
+        //如何创建Optional
 
+        //创建一个empty optional
+        Optional<Object> empty = Optional.empty();
+        System.out.println(empty.isPresent());
+
+        //传建一个
+        Optional<Car> carOptional = Optional.of(new Car());
+        System.out.println(carOptional.isPresent());
+        System.out.println(carOptional.get());
+
+        Optional<Object> o = Optional.ofNullable(null);
+        System.out.println(o.isPresent());
+
+
+        System.out.println(getCarInsuranceOption(Optional.of(new PersonNew())));
+    }
+
+    static class PersonNew {
+
+        private Optional<CarNew> car;
+
+        public Optional<CarNew> getCar() {
+            return car;
+        }
+    }
+
+    //重写新的方法
+    static class CarNew {
+
+        private Optional<Insurance> insurance;
+
+        public Optional<Insurance> getInsurance() {
+            return insurance;
+        }
+    }
+
+    static String getCarInsuranceOption(Optional<PersonNew> person) {
+
+        return person.flatMap(PersonNew::getCar).flatMap(CarNew::getInsurance).map(Insurance::getName).orElse("null");
+    }
+
+    static String getCarInsuranceNameOne(Person person) {
+
+        //老的避免出现空指针异常的解决方案
+        if (person != null) {
+
+            Car car = person.getCar();
+
+            if (car != null) {
+
+                Insurance insurance = car.getInsurance();
+
+                if (insurance != null) {
+                    return insurance.getName();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static String getCarInsuranceName(Person person) {
+
+        //这里可能抛出异常,尤其是NullPointException
+        return person.getCar().getInsurance().getName();
+    }
+
+    static class Person {
+        private Car car;
+
+        public Car getCar() {
+            return car;
+        }
+    }
+
+    static class Car {
+        private Insurance insurance;
+
+        public Insurance getInsurance() {
+            return insurance;
+        }
+    }
+
+    static class Insurance {
+
+        private String name;
+
+        public String getName() {
+            return name;
+        }
     }
 
     //编译器错误,因为不能识别那个方法
