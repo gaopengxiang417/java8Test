@@ -32,6 +32,8 @@ public class DefaultMethodTest {
         new E().hello();
 
         new G().hello();
+
+
     }
 
     //编译器错误,因为不能识别那个方法
