@@ -49,8 +49,18 @@ public class DefaultMethodTest {
         System.out.println(o.isPresent());
 
 
-        System.out.println(getCarInsuranceOption(Optional.of(new PersonNew())));
+        //System.out.println(getCarInsuranceOption(Optional.of(new PersonNew())));
+
+        //filter方法的使用
+        Insurance insurance = new Insurance();
+        insurance.setName("chinese");
+
+        Optional.of(insurance).filter(p -> "chinese".equals(p.getName())).ifPresent(x -> System.out.println("hello" + x));
+
+
     }
+
+
 
     static class PersonNew {
 
@@ -69,6 +79,24 @@ public class DefaultMethodTest {
         public Optional<Insurance> getInsurance() {
             return insurance;
         }
+    }
+
+    static Optional<Insurance> nullSafeFindCheapeastInsurance(Optional<Person> person, Optional<Car> car) {
+
+        if (person.isPresent() && car.isPresent()) {
+            return Optional.of(findCheapestInsurance(person.get(), car.get()));
+        }
+
+        return Optional.empty();
+
+        //第二种更为简单的写法
+        //return person.flatMap(p -> car.map(c -> findCheapestInsurance(p, c)));
+    }
+
+    static Insurance findCheapestInsurance(Person person, Car car) {
+
+        //查找最便宜的机票
+        return new Insurance();
     }
 
     static String getCarInsuranceOption(Optional<PersonNew> person) {
@@ -124,6 +152,10 @@ public class DefaultMethodTest {
 
         public String getName() {
             return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 
