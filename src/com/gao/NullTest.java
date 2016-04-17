@@ -1,6 +1,6 @@
 package com.gao;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * User: wangchen
@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Time: 10:45
  */
 public class NullTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException {
         String s = "";
         String ss = null;
         s += ss;
@@ -30,8 +30,16 @@ public class NullTest {
         Long ll = (Long) object;
 
 
+        List<String> list = new ArrayList<>();
+        list.add("33");
+        ss(list);
 
+        System.out.println(list);
+    }
 
+    public static void ss(Collection<String> collection) throws IllegalAccessException, InstantiationException {
 
+        System.out.println(55);
+        System.exit(0);
     }
 }
