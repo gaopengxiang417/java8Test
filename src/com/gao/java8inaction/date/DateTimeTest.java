@@ -118,6 +118,20 @@ public class DateTimeTest {
         //自定义格式
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         System.out.println(date9.format(formatter));
+
+        //zone
+        ZoneId zoneId = ZoneId.of("Europe/Rome");
+
+        LocalDate date10 = LocalDate.of(2014, Month.APRIL, 23);
+        ZonedDateTime zonedDateTime = date10.atStartOfDay(zoneId);
+        System.out.println(zonedDateTime);
+
+        LocalDateTime dateTime3 = LocalDateTime.of(2015, Month.APRIL, 23, 12, 12, 12);
+        ZonedDateTime zonedDateTime1 = dateTime3.atZone(zoneId);
+        System.out.println(zonedDateTime1);
+
+        Instant instant1 = Instant.now();
+        System.out.println(instant1.atZone(zoneId));
     }
 
     //定义一个下一个非节假日的日期
