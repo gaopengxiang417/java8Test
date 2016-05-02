@@ -1,7 +1,8 @@
 package com.gao.java8inaction.date;
 
 import java.time.*;
-import java.time.temporal.ChronoField;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.*;
 
 /**
  * User: wangchen
@@ -79,6 +80,60 @@ public class DateTimeTest {
         System.out.println(between);
         System.out.println(between.getDays());
 
+        //with的使用
+        LocalDate date = LocalDate.of(2015, 12, 11);
+        System.out.println(date);
+        LocalDate date1 = date.withYear(2016);
+        System.out.println(date1);
+        LocalDate date2 = date1.withMonth(11);
+        System.out.println(date2);
+        LocalDate date3 = date2.with(ChronoField.DAY_OF_MONTH, 24);
+        System.out.println(date3);
 
+        System.out.println("********************");
+
+        //日期的加减
+        LocalDate date4 = date.plusWeeks(34);
+        System.out.println(date4);
+        LocalDate date5 = date4.minusYears(4);
+        System.out.println(date5);
+        LocalDate date6 = date5.plus(5, ChronoUnit.MONTHS);
+        System.out.println(date6);
+
+        //预先定义的一些日期操作工具类
+        LocalDate date7 = LocalDate.of(2015, 11, 12);
+        LocalDate date8 = date7.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        System.out.println(date8);
+        LocalDate date9 = date8.with(TemporalAdjusters.lastDayOfMonth());
+        System.out.println(date9);
+
+        //日期的格式化
+        String format = date9.format(DateTimeFormatter.BASIC_ISO_DATE);
+        System.out.println(format);
+        String format1 = date9.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        System.out.println(format1);
+
+        System.out.println(LocalDate.parse(format, DateTimeFormatter.BASIC_ISO_DATE));
+
+        //自定义格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println(date9.format(formatter));
+    }
+
+    //定义一个下一个非节假日的日期
+    class NextWorkingDay implements TemporalAdjuster {
+        @Override
+        public Temporal adjustInto(Temporal temporal) {
+
+            DayOfWeek week = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK));
+            int dayToAdd = 1;
+            if (week == DayOfWeek.FRIDAY) {
+                dayToAdd = 3;
+            } else if (week == DayOfWeek.SATURDAY) {
+                dayToAdd = 2;
+            }
+
+            return temporal.plus(dayToAdd, ChronoUnit.DAYS);
+        }
     }
 }
